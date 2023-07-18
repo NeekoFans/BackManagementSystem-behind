@@ -17,6 +17,8 @@ public class PicoApplication {
         map.put("name","张三");
         map.put("age","20");
         map.put("date",new Date());
+        map.put("str",1111111);
+        map.put("str2","22222222222222222222");
         SpringApplication.run(PicoApplication.class, args);
     }
 
