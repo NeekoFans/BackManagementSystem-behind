@@ -13,7 +13,7 @@ public class PicoApplication {
 
     public static void main(String[] args) {
         Map map=new HashMap();
-        map.put("id","9527");
+        map.put("id","95271111111111111111111111111111111");
         map.put("name","张三");
         map.put("age","20");
         map.put("date",new Date());
