@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pico.dao.JxcRoleDaoI">
+    <select id="getById" parameterType="Long" resultType="String">
+     SELECT
+a.`role_id_`
+FROM jxc_role_user a,jxc_role b
+WHERE a.`role_id_`=b.`id_`
+AND (b.`pid_`=0 OR b.`pid_`=19)
+AND a.`user_id_`=#{user_id_}
+</select>
+
+</mapper>

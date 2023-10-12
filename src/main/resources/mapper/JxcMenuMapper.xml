@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pico.dao.JxcMenuDaoI">
+    <resultMap id="rm" type="MenuTree">
+        <id column="id_" property="id"></id>
+        <result column="text_" property="label"></result>
+        <result column="pid_" property="pid"></result>
+        <result column="order_" property="order"></result>
+        <result column="url_" property="url"></result>
+    </resultMap>
+    <select id="query" parameterType="MenuTree" resultMap="rm">
+        select id_,text_,pid_,order_,url_ from jxc_menu;
+    </select>
+
+    <resultMap id="rm2" type="MenuTree">
+        <id column="id_" property="id"></id>
+        <result column="name_" property="label"></result>
+        <result column="p_id_" property="pid"></result>
+
+    </resultMap>
+    <select id="queryByAccount" parameterType="MenuTree" resultMap="rm2">
+        select id_,name_,p_id_ from jxc_type;
+    </select>
+
+    <resultMap id="rm1" type="MenuTree">
+        <id column="id_" property="id"></id>
+        <result column="text_" property="label"></result>
+        <result column="pid_" property="pid"></result>
+        <result column="order_" property="order"></result>
+    </resultMap>
+    <select id="queryPid" parameterType="MenuTree" resultMap="rm1">
+        select * from jxc_menu where pid_=#{id};
+    </select>
+</mapper>

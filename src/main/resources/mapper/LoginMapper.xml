@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pico.dao.LoginDaoI">
+    <resultMap id="rm" type="MenuTree">
+        <id column="id_" property="id"></id>
+        <result column="text_" property="label"></result>
+        <result column="pid_" property="pid"></result>
+        <result column="order_" property="order"></result>
+        <result column="url_" property="url"></result>
+    </resultMap>
+    <select id="query" parameterType="MenuTree" resultMap="rm">
+       SELECT * FROM jxc_menu
+                      WHERE id_ IN (SELECT menu_id_ FROM jxc_menu_role
+                   WHERE role_id_ IN(SELECT role_id_ FROM jxc_role_user
+                  WHERE user_id_ IN(SELECT id FROM `user` WHERE account=#{account})))
+    </select>
+
+
+</mapper>

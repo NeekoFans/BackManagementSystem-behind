@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pico.dao.JxcProductOrderDaoI">
+    <select id="getOrderList"  resultMap="rm">
+        SELECT * FROM jxc_product_order t1,jxc_type t2
+                              WHERE 1=1
+                             AND t1.`type_id_`=t2.`id_`
+                           AND t1.`order_type_`=2
+                           AND name_ LIKE '%${JxcProductOrder.name}%'
+                           ORDER BY t1.`type_id_` DESC
+                           LIMIT #{JxcProductOrder.offset},#{JxcProductOrder.size}
+    </select>
+    <resultMap id="rm" type="JxcProductOrder">
+        <id column="id_" property="id"></id>
+        <result column="name_" property="name"></result>
+        <result column="number_" property="number"></result>
+        <result column="price_" property="price"></result>
+        <result column="status_" property="status"></result>
+        <result column="reason" property="reason"></result>
+        <result column="create_date_" property="createDate"></result>
+    </resultMap>
+
+    <select id="total" parameterType="Integer" resultType="Integer">
+        SELECT  COUNT(*) FROM jxc_product_order t1,jxc_type t2
+        WHERE 1=1
+        AND t1.`type_id_`=t2.`id_`
+        AND t1.`order_type_`=2
+        <if test="!@org.springframework.util.StringUtils@isEmpty(name)">
+            AND t2.`name_`=#{name}
+        </if>
+    </select>
+    <select id="getAddTotal" parameterType="Integer" resultType="Integer">
+        SELECT  COUNT(*) FROM jxc_product_order t1,jxc_type t2
+        WHERE 1=1
+        AND t1.`type_id_`=t2.`id_`
+        AND t1.`order_type_`=1
+        <if test="!@org.springframework.util.StringUtils@isEmpty(name)">
+            AND t2.`name_`=#{name}
+        </if>
+    </select>
+    <select id="reviewTotal" parameterType="Integer" resultType="Integer">
+        SELECT  COUNT(*) FROM jxc_product_order t1,jxc_type t2
+        WHERE 1=1
+        AND t1.`type_id_`=t2.`id_`
+        <if test="!@org.springframework.util.StringUtils@isEmpty(name)">
+            AND t2.`name_`=#{name}
+        </if>
+        <choose>
+            <when test="orderType==0">
+
+            </when>
+            <otherwise>
+                AND t1.`order_type_`=#{orderType}
+            </otherwise>
+        </choose>
+
+    </select>
+    <sql id="addwhere">
+        <where>
+            <if test="!@org.springframework.util.StringUtils@isEmpty(name)">
+                and  name_=#{name}
+            </if>
+
+        </where>
+    </sql>
+</mapper>

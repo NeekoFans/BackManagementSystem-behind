@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pico.dao.JxcRoleDaoI">
+    <resultMap id="rm" type="JxcRole">
+        <id column="id_" property="id"></id>
+        <result column="name_" property="name"></result>
+        <result column="flag_" property="flag"></result>
+    </resultMap>
+    <select id="getRoleList"  resultMap="rm">
+        select * from jxc_role
+        <include refid="addwhere"></include>
+        order by id_ desc
+        limit #{offset},#{pageSize}
+    </select>
+    <select id="total" parameterType="Long" resultType="Long">
+         select count(*) from jxc_role
+        <include refid="addwhere"></include>
+    </select>
+
+    <delete id="delete" parameterType="String">
+                delete from jxc_role where id_=#{id}
+            </delete>
+    <sql id="addwhere">
+        <where>
+            <if test="!@org.springframework.util.StringUtils@isEmpty(name)">
+                and  name_=#{name}
+            </if>
+
+        </where>
+    </sql>
+</mapper>

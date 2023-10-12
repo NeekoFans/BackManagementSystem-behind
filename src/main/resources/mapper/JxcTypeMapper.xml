@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pico.dao.JxcTypeDaoI">
+    <resultMap id="rm1" type="MenuTree">
+        <id column="id_" property="id"></id>
+        <result column="name_" property="label"></result>
+        <result column="p_id_" property="pid"></result>
+
+    </resultMap>
+    <select id="queryPid" parameterType="MenuTree" resultMap="rm1">
+        select * from jxc_type where p_id_=#{id};
+    </select>
+
+    <resultMap id="rm" type="JxcType">
+        <id column="id_" property="id"></id>
+        <result column="name_" property="name"></result>
+        <result column="total_" property="total"></result>
+    </resultMap>
+    <select id="getTypeList"  resultMap="rm">
+        SELECT * FROM jxc_type t1,jxc_product t2 WHERE 1=1
+        AND t1.`id_`=t2.`type_id_`
+        <include refid="addwhere"></include>
+        order by t1.`id_` desc
+        limit #{offset},#{pageSize}
+    </select>
+
+
+    <sql id="addwhere">
+        <where>
+            <if test="!@org.springframework.util.StringUtils@isEmpty(name)">
+                and  name_ like '%${name}%'
+            </if>
+        </where>
+    </sql>
+
+    <select id="total" parameterType="Integer" resultType="Integer">
+         select count(*) from jxc_type t1,jxc_product t2
+          WHERE 1=1
+        AND t1.`id_`=t2.`type_id_`
+        <if test="!@org.springframework.util.StringUtils@isEmpty(name)">
+            AND t1.`name_`like '%${name}%'
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pico.dao.JxcUserDaoI">
+    <resultMap id="rm" type="User">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="account" property="account"></result>
+    </resultMap>
+    <select id="getUserList"  resultMap="rm">
+        select * from user
+        <include refid="addwhere"></include>
+        order by id desc
+        limit #{offset},#{pageSize}
+    </select>
+
+<!--    <resultMap id="rm" type="RoleTree">-->
+<!--        <id column="id_" property="id"></id>-->
+<!--        <result column="name_" property="label"></result>-->
+<!--        <result column="pid_" property="pid"></result>-->
+
+<!--    </resultMap>-->
+<!--    <select id="query" parameterType="RoleTree" resultMap="rm">-->
+<!--        select id_,name_,pid_ from jxc_role;-->
+<!--    </select>-->
+
+    <select id="total" parameterType="Long" resultType="Long">
+         select count(*) from user
+        <include refid="addwhere"></include>
+    </select>
+
+    <delete id="delete" parameterType="String">
+                delete from user where id=#{id}
+            </delete>
+    <sql id="addwhere">
+        <where>
+            <if test="!@org.springframework.util.StringUtils@isEmpty(name)">
+                and name=#{name}
+            </if>
+
+        </where>
+    </sql>
+</mapper>
